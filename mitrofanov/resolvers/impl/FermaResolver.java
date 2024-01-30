@@ -25,7 +25,8 @@ public class FermaResolver implements CommandResolver {
         SendMessage sendMessage = new SendMessage();
         if (text.startsWith("/farm")) {
             if (!fermaService.isRunOutTimeOfUser(chatId)) {
-                TelegramBotUtils.sendMessage(tg_bot, "Вы уже находитесь на ферме. \nПовторное посещение будет доступно после окончания времени", chatId);
+
+                TelegramBotUtils.sendMessage(tg_bot, "Вы уже находитесь на ферме. \nПовторное посещение будет доступно после окончания времени.\n" + fermaService.getRemainingTime(chatId), chatId);
                 setSessionStateForThisUser(chatId, State.IDLE);
                 return;
             }
@@ -37,7 +38,7 @@ public class FermaResolver implements CommandResolver {
 
         } if (text.startsWith("/threeHours")) {
             if (!fermaService.isRunOutTimeOfUser(chatId)) {
-                TelegramBotUtils.sendMessage(tg_bot, "Вы уже находитесь на ферме. \nПовторное посещение будет доступно после окончания времени", chatId);
+
                 setSessionStateForThisUser(chatId, State.IDLE);
                 return;
             }
@@ -50,13 +51,14 @@ public class FermaResolver implements CommandResolver {
 
             fermaService.updateUserDateLastFarm(chatId, hours);
             fermaService.addGoldForUserByFarm(chatId, 30L);
+            fermaService.updateFarmHours(chatId, 3);
 
             setSessionStateForThisUser(chatId, State.IDLE);
         }
 
          else if (text.startsWith("/sixHours")) {
             if (!fermaService.isRunOutTimeOfUser(chatId)) {
-                TelegramBotUtils.sendMessage(tg_bot, "Вы уже находитесь на ферме. \nПовторное посещение будет доступно после окончания времени", chatId);
+
                 setSessionStateForThisUser(chatId, State.IDLE);
                 return;
             }
@@ -70,12 +72,13 @@ public class FermaResolver implements CommandResolver {
 
                 fermaService.updateUserDateLastFarm(chatId, hours);
                 fermaService.addGoldForUserByFarm(chatId, 60L);
+                fermaService.updateFarmHours(chatId, 6);
 
                 setSessionStateForThisUser(chatId, State.IDLE);
 
         } else if (text.startsWith("/twelveHours")) {
             if (!fermaService.isRunOutTimeOfUser(chatId)) {
-                TelegramBotUtils.sendMessage(tg_bot, "Вы уже находитесь на ферме. \nПовторное посещение будет доступно после окончания времени", chatId);
+
                 setSessionStateForThisUser(chatId, State.IDLE);
                 return;
             }
@@ -89,6 +92,7 @@ public class FermaResolver implements CommandResolver {
 
                 fermaService.updateUserDateLastFarm(chatId, hours);
                 fermaService.addGoldForUserByFarm(chatId, 120L);
+                fermaService.updateFarmHours(chatId, 12);
 
                 setSessionStateForThisUser(chatId, State.IDLE);
 
