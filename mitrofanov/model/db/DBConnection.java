@@ -1,6 +1,7 @@
 package mitrofanov.model.db;
 
 
+
 import mitrofanov.Configuration;
 
 import java.sql.Connection;
@@ -12,9 +13,10 @@ import static mitrofanov.Configuration.*;
 
 public class DBConnection {
 
-    private static final String URL = "jdbc:postgresql://[::1]:5432/et_lana_banana_database";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "0810923";
+    private static final String URL =
+            DB_URL;
+    private static final String USER = DB_USER;
+    private static final String PASSWORD = DB_PASSWORD;
 
     private static Connection conn = null;
 

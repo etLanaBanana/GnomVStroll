@@ -3,7 +3,6 @@ package mitrofanov.configuration;
 import lombok.Getter;
 import mitrofanov.resolvers.CommandResolver;
 
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,7 +15,7 @@ import java.util.stream.Stream;
 public class ConfigurationButton {
 
     public static Map<String, CommandResolver> resolvers = new HashMap<>();
-    private static final String packageName = "mitrofanov.resolvers.button";
+    private static final String packageName = System.getenv("resolvers-button");
 
     static {
         ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();

@@ -6,7 +6,7 @@ import mitrofanov.model.repository.ProfileRepository;
 import java.sql.SQLException;
 
 public class ProfileService {
-    private final ProfileRepository profileRepository;
+private final ProfileRepository profileRepository;
     public ProfileService() {
         this.profileRepository = new ProfileRepository();
     }

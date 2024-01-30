@@ -4,17 +4,15 @@ import lombok.SneakyThrows;
 import mitrofanov.model.db.DBConnection;
 import mitrofanov.model.entity.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 
 public class FermaRepository {
-    public void saveThisUsersTime(User user, int hours) {
+    @SneakyThrows
+    public void saveThisUsersTime(User user, LocalDateTime hours) {
         try {
             Connection connection = DBConnection.getConnection();
-            String sql = "INSERT INTO playerTime (chat_id, date_plus_hours) VALUES (?,?)";
+            String sql = "INSERT INTO player (chatid, datelastfarme) VALUES (?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setLong(1, user.getChatId());
             statement.setObject(2, hours);
@@ -24,39 +22,53 @@ public class FermaRepository {
         }
     }
     @SneakyThrows
-    public static LocalDateTime getThisUserTime(String chatId) {
+    public static LocalDateTime getThisUserTime(Long chatId) {
         Connection connection = DBConnection.getConnection();
-        String sql = "SELECT date_plus_hours FROM player WHERE chat_id = ?";
+        String sql = "SELECT datelastfarme FROM player WHERE chatid = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, chatId);
+        statement.setLong(1, chatId);
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
-            return resultSet.getObject("date_plus_hours", LocalDateTime.class);
+            return resultSet.getObject("datelastfarme", LocalDateTime.class);
         }
         return null;
     }
-    public static void updateUserTime(String chatId, LocalDateTime hours) {
+    public static void updateUserTime(Long chatId, LocalDateTime hours) {
         try {
             Connection connection = DBConnection.getConnection();
-            String sql = "UPDATE player SET date_plus_hours = ? WHERE chat_id = ?";
+            String sql = "UPDATE player SET datelastfarme = ? WHERE chatid = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setObject(1, hours);
-            statement.setString(2, chatId);
+            statement.setTimestamp(1, Timestamp.valueOf(hours));
+            statement.setLong(2, chatId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка");
         }
     }
-    public static void addGoldForUser(String chatId, int gold) {
+    public static void addGoldForUser(Long chatId, Long gold) {
         try {
             Connection connection = DBConnection.getConnection();
-            String sql = "UPDATE player SET gold = gold + ? WHERE chat_id = ?";
+            String sql = "UPDATE player SET gold = ? WHERE chatid = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, gold);
-            statement.setString(2, chatId);
+            statement.setLong(1, gold);
+            statement.setLong(2, chatId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка");
         }
+    }
+    @SneakyThrows
+    public static Long getGoldForUser(Long chatId) {
+
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT * FROM player WHERE chatid = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setLong(1, chatId);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        Long gold = resultSet.getLong("gold");
+        statement.close();
+        connection.close();
+        return gold;
     }
 }

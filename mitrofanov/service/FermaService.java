@@ -1,20 +1,30 @@
 package mitrofanov.service;
 
-import mitrofanov.model.entity.User;
 import mitrofanov.model.repository.FermaRepository;
+import mitrofanov.utils.TelegramBotUtils;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.time.LocalDateTime;
 
 public class FermaService {
-    public FermaService() {
-        FermaRepository fermaRepository = new FermaRepository();
-    }
-    public void isRunOutTimeOfUser(String chatId) {
+
+    public boolean isRunOutTimeOfUser(Long chatId) {
         LocalDateTime userTime = FermaRepository.getThisUserTime(chatId); //время из табл + сколько-то часов
         if (LocalDateTime.now().isBefore(userTime)) {
-            //время еще не кончилось делать ничего нельзя
-        } else if (LocalDateTime.now().isAfter(userTime)) {
-            //можно выполнять дальнейшие действия
+            return false;  //время еще не кончилось делать ничего нельзя
+        } else  {
+           return true; //можно выполнять дальнейшие действия
         }
+    }
+
+
+    public void updateUserDateLastFarm(Long chatId, LocalDateTime hours) {
+        FermaRepository.updateUserTime(chatId, hours);
+    }
+
+    public void addGoldForUserByFarm(Long chatId, Long i) {
+        Long currentGold = FermaRepository.getGoldForUser(chatId);
+        Long newGold = currentGold + i;
+        FermaRepository.addGoldForUser(chatId, newGold);
     }
 }

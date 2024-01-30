@@ -13,10 +13,10 @@ public enum State {
     TRAINING("/training"),
     BADALKA("/badalka"),
     FARM("/farm"),
-    THREE_HOURS("/threeHours"),
-    SIX_HOURS("/sixHours"),
-    TWELVE_HOURS("/twelveHours"),
-    HOURS("/hours");
+
+    CHOICE_RICE_TROLL("/choiceRiceTroll"),
+    CHOICE_RICE_GNOME("/choiceRiceGnome");
+
 
     private String value;
 

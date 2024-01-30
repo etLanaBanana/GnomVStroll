@@ -1,7 +1,6 @@
 package mitrofanov.model.entity;
 
 import lombok.AllArgsConstructor;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +23,8 @@ public class User {
     Long fightingPower;
     Date dateLastAtack;
     Date dateLastGuard;
-    Date dateLastFarme;
+    LocalDateTime dateLastFarme;
+    int globalCountFarmHours;
 
     public Long getFightingPower() {
         fightingPower = (long) (power * 2.1 + agility * 1.4 + mastery * 1.5 + weight * 1.7);

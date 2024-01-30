@@ -10,5 +10,4 @@ import lombok.Setter;
 public class Session {
     private Long sessionID;
     private State state;
-    private StateButton stateButton;
 }

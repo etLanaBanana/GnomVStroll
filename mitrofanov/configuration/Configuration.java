@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class Configuration {
 
     public static Map<String, CommandResolver> resolvers = new HashMap<>();
-    private static final String packageName = "mitrofanov.resolvers.impl";
+    private static final String packageName = System.getenv("resolvers-package");
 
     static {
         ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
