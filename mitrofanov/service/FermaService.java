@@ -9,7 +9,6 @@ public class FermaService {
 
     public boolean isRunOutTimeOfUser(Long chatId) {
         LocalDateTime userTime = FermaRepository.getThisUserTime(chatId); //время из табл + сколько-то часов
-        LocalDateTime currentTime = LocalDateTime.now();
 
         if (LocalDateTime.now().isBefore(userTime)) {
             return false;  //время еще не кончилось делать ничего нельзя

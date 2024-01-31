@@ -50,7 +50,7 @@ public class FermaResolver implements CommandResolver {
             LocalDateTime hours = currentTime.plusHours(1);
 
             fermaService.updateUserDateLastFarm(chatId, hours);
-            fermaService.addGoldForUserByFarm(chatId, 30L);
+            fermaService.addGoldForUserByFarm(chatId, 3000L);
             fermaService.updateFarmHours(chatId, 3);
 
             setSessionStateForThisUser(chatId, State.IDLE);
